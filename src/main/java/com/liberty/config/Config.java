@@ -13,6 +13,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.session.data.mongo.JdkMongoSessionConverter;
 import org.springframework.session.data.mongo.config.annotation.web.http.EnableMongoHttpSession;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Created by Dmytro_Kovalskyi on 28.03.2016.
@@ -22,6 +27,7 @@ import org.springframework.session.data.mongo.config.annotation.web.http.EnableM
 @EnableScheduling
 @EnableMongoRepositories("com.liberty.repositories")
 @EnableMongoHttpSession
+@EnableSwagger2
 public class Config extends AbstractMongoConfiguration {
 
     public static final int POOL_SIZE = 10;
@@ -58,6 +64,14 @@ public class Config extends AbstractMongoConfiguration {
         return scheduler;
     }
 
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
+    }
 
     @Bean
     public JdkMongoSessionConverter jdkMongoSessionConverter() {

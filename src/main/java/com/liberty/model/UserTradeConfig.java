@@ -4,8 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Dmytro_Kovalskyi.
@@ -18,9 +18,9 @@ public class UserTradeConfig {
     @Id
     private String userId;
 
-    private Set<PlayerTradeStatus> players = new HashSet<>();
+    private Map<PlayerId, PlayerTradeStatus> players = new HashMap<>();
 
     public void addPlayer(PlayerTradeStatus tradeStatus) {
-        players.add(tradeStatus);
+        players.put(tradeStatus.getPlayerId(), tradeStatus);
     }
 }

@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlayerTradeStatus {
 
-    private Long playerId;
-    private Integer rareflag;
+    private PlayerId playerId;
 
     private Integer buyPrice;
     private Integer sellStartPrice;
