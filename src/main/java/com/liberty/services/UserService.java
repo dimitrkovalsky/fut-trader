@@ -10,4 +10,6 @@ public interface UserService {
     User getCurrentUser();
 
     void createUser(User user);
+
+    User findByLogin(String login);
 }
