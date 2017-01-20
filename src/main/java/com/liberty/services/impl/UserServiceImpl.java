@@ -30,4 +30,9 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("User with such login exists");
         userRepository.save(user);
     }
+
+    @Override
+    public User findByLogin(String login) {
+        return userRepository.findOneByLogin(login).orElseGet(null);
+    }
 }
