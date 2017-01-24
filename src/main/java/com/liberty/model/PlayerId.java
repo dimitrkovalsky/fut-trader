@@ -10,4 +10,8 @@ import lombok.Data;
 public class PlayerId {
     private Long id;
     private int rareFlag;
+
+    public String toMapKey() {
+        return id + "_" + rareFlag;
+    }
 }

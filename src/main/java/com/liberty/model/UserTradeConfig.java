@@ -18,9 +18,18 @@ public class UserTradeConfig {
     @Id
     private String userId;
 
-    private Map<PlayerId, PlayerTradeStatus> players = new HashMap<>();
+    private Map<String, PlayerTradeStatus> players = new HashMap<>();
 
     public void addPlayer(PlayerTradeStatus tradeStatus) {
-        players.put(tradeStatus.getPlayerId(), tradeStatus);
+        players.put(tradeStatus.getPlayerId().toMapKey(), tradeStatus);
     }
+
+    public PlayerTradeStatus remove(PlayerId playerId) {
+        return players.remove(playerId.toMapKey());
+    }
+
+    public PlayerTradeStatus getPlayer(PlayerId playerId) {
+        return players.get(playerId.toMapKey());
+    }
+
 }
