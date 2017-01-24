@@ -8,6 +8,7 @@ import com.liberty.common.StringConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -31,12 +32,20 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(ALL_URL_MASK).addResourceLocations(StringConstants.ROOT_WEB_PATH);
-        registry.addResourceHandler("/swagger/**").addResourceLocations("/swagger/");
+      //  registry.addResourceHandler("/swagger/**").addResourceLocations("/swagger/");
+
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController(StringConstants.ROOT_WEB_PATH).setViewName(FORWARD_INDEX_HTML);
+//        registry.addViewController(StringConstants.ROOT_WEB_PATH).setViewName(FORWARD_INDEX_HTML);
+        registry.addViewController("/login").setViewName("login");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 
     @Override
@@ -66,6 +75,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         JsonHelper.setObjectMapper(objectMapper);
         return converter;
     }
+
 
 
 }

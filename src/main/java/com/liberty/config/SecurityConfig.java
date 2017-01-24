@@ -36,8 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .and()
-                .authorizeRequests().antMatchers("/swagger/**")
-                .authenticated()
+                .formLogin()
+                .loginPage("/login").permitAll()
+//                .and()
+//                .authorizeRequests().antMatchers("/swagger/**").permitAll()
                 //Secured requests
                 .and()
                 .authorizeRequests().antMatchers("/secure/**").hasRole(StringConstants.ROLE_USER)

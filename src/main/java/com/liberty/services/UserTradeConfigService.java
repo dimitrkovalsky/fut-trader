@@ -2,8 +2,7 @@ package com.liberty.services;
 
 import com.liberty.model.PlayerId;
 import com.liberty.model.PlayerTradeStatus;
-
-import java.util.Map;
+import com.liberty.model.UserTradeConfig;
 
 /**
  * @author Dmytro_Kovalskyi.
@@ -20,5 +19,5 @@ public interface UserTradeConfigService {
 
     void enablePlayer(PlayerId playerId, boolean enabled);
 
-    Map<PlayerId, PlayerTradeStatus> getAllTrades();
+    UserTradeConfig getAllTrades();
 }
