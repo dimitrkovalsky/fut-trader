@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll()
 //                .and()
 //                .authorizeRequests().antMatchers("/swagger/**").permitAll()
-                //Secured requests
+                //Secured request
                 .and()
                 .authorizeRequests().antMatchers("/secure/**").hasRole(StringConstants.ROLE_USER)
                 .and()

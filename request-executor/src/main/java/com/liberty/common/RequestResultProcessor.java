@@ -1,7 +1,7 @@
 package com.liberty.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.liberty.responces.FifaError;
+import com.liberty.response.FifaError;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
@@ -44,7 +44,7 @@ public class RequestResultProcessor {
             case FAILED:
                 return Optional.empty();
             case OK:
-                return JsonHelper.toEntity(json, resultEntity);
+                return JsonConverter.toEntity(json, resultEntity);
             case SESSION_EXPIRED:
                 return onSessionExpired.get();
             default:
@@ -71,7 +71,7 @@ public class RequestResultProcessor {
     }
 
     private FifaRequestStatus getVoidStatus(String json) {
-        ObjectMapper objectMapper = JsonHelper.getObjectMapper();
+        ObjectMapper objectMapper = JsonConverter.getObjectMapper();
         try {
             FifaError fifaError = objectMapper.readValue(json, FifaError.class);
             if (fifaError.getCode() == FifaError.ErrorCode.SESSION_EXPIRED) {
@@ -91,7 +91,7 @@ public class RequestResultProcessor {
 
 
     private FifaRequestStatus getStatus(String json) {
-        ObjectMapper objectMapper = JsonHelper.getObjectMapper();
+        ObjectMapper objectMapper = JsonConverter.getObjectMapper();
         try {
             FifaError fifaError = objectMapper.readValue(json, FifaError.class);
             if (fifaError.getCode() == FifaError.ErrorCode.SESSION_EXPIRED) {
@@ -134,7 +134,7 @@ public class RequestResultProcessor {
             case FAILED:
                 return false;
             case OK:
-                Optional<U> entity = JsonHelper.toEntity(json, requestResult);
+                Optional<U> entity = JsonConverter.toEntity(json, requestResult);
                 return entity.isPresent();
             case SESSION_EXPIRED:
                 return onSessionExpired.get();
@@ -157,7 +157,7 @@ public class RequestResultProcessor {
             case FAILED:
                 return Collections.emptyList();
             case OK:
-                Optional<U> entity = JsonHelper.toEntity(json, requestResult);
+                Optional<U> entity = JsonConverter.toEntity(json, requestResult);
                 return entity.map(mapper).orElse(Collections.emptyList());
             case SESSION_EXPIRED:
                 return onSessionExpired.get();

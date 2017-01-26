@@ -1,9 +1,11 @@
 package com.liberty.common;
 
-import com.liberty.model.AuthRequest;
-import com.liberty.model.AuthResponse;
-import com.liberty.rest.request.MarketSearchRequest;
-import com.liberty.rest.response.BidStatus;
+import com.liberty.model.*;
+import com.liberty.request.AuthRequest;
+import com.liberty.request.MarketSearchRequest;
+import com.liberty.response.AuctionHouseResponse;
+import com.liberty.response.AuthResponse;
+import com.liberty.response.BidStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -88,7 +90,7 @@ public class FifaRequests extends BaseFifaRequests {
 
     private String getAuthRequest() {
         AuthRequest request = new AuthRequest(2311254984L, NUCLEUS_PERSONA_ID);
-        return JsonHelper.toJson(request).toString();
+        return JsonConverter.toJson(request).toString();
     }
 
     private Optional<String> auth() {
@@ -104,7 +106,7 @@ public class FifaRequests extends BaseFifaRequests {
                 return Optional.empty();
             }
             Optional<AuthResponse> response =
-                    JsonHelper.toEntitySilently(result.get(), AuthResponse.class);
+                    JsonConverter.toEntitySilently(result.get(), AuthResponse.class);
             if (!response.isPresent()) {
                 setFailAuth();
                 return Optional.empty();
@@ -135,7 +137,7 @@ public class FifaRequests extends BaseFifaRequests {
             log.info("Trying to bid : " + tradeId + " for " + auctionInfo.getBuyNowPrice());
             HttpPost request = createBidRequest(String.format(getBidUrl(), tradeId));
             Bid bid = new Bid((long) auctionInfo.getBuyNowPrice());
-            String json = JsonHelper.toJsonString(bid);
+            String json = JsonConverter.toJsonString(bid);
             request.setEntity(new StringEntity(json));
 
             Optional<String> response = execute(request);
@@ -151,12 +153,12 @@ public class FifaRequests extends BaseFifaRequests {
         log.info("Trying to bid : " + bidPrice + " for " + tradeId);
         HttpPost request = createBidRequest(String.format(getBidUrl(), tradeId));
         Bid bid = new Bid(bidPrice);
-        String json = JsonHelper.toJsonString(bid);
+        String json = JsonConverter.toJsonString(bid);
         try {
 
             request.setEntity(new StringEntity(json));
             Optional<String> response = execute(request);
-            Optional<TradeStatus> status = JsonHelper.toEntity(response.get(), TradeStatus.class);
+            Optional<TradeStatus> status = JsonConverter.toEntity(response.get(), TradeStatus.class);
             BidStatus bidStatus = new BidStatus();
             bidStatus.setTradeId(tradeId);
             TradeStatus tradeStatus = status.get();
@@ -198,7 +200,7 @@ public class FifaRequests extends BaseFifaRequests {
         HttpPost request = createPutRequest(getItemUrl());
 
         try {
-            request.setEntity(new StringEntity(JsonHelper.toJsonString(toSell)));
+            request.setEntity(new StringEntity(JsonConverter.toJsonString(toSell)));
         } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage());
         }
@@ -214,7 +216,7 @@ public class FifaRequests extends BaseFifaRequests {
         AuctionInfo toSell = createAuctionRequest(id, startPrice, buyNow);
 
         try {
-            String json = JsonHelper.toJsonString(toSell);
+            String json = JsonConverter.toJsonString(toSell);
             request.setEntity(new StringEntity(json));
             Optional<String> executionResult = execute(request);
             return processor.processResult(executionResult, AuctionHouseResponse.class,

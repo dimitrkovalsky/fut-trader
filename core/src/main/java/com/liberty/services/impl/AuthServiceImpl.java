@@ -7,7 +7,7 @@ import com.liberty.model.UserSessionDetails;
 import com.liberty.repositories.UserSessionDetailsRepository;
 import com.liberty.security.AuthData;
 import com.liberty.services.AuthService;
-import com.liberty.common.JsonHelper;
+import com.liberty.common.JsonConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(cookie);
         try {
             String userDetailsString =
-                    JsonHelper.getObjectMapper().writeValueAsString(authData.getUserAttributes());
+                    JsonConverter.getObjectMapper().writeValueAsString(authData.getUserAttributes());
             Cookie userDetailsCookie =
                     generateCookie(StringConstants.USER_DETAILS_COOKIE_NAME, userDetailsString);
             response.addCookie(userDetailsCookie);

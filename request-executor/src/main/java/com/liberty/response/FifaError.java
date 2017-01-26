@@ -1,4 +1,4 @@
-package com.liberty.responces;
+package com.liberty.response;
 
 import lombok.Data;
 

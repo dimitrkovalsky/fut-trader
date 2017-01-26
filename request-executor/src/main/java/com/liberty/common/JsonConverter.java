@@ -6,23 +6,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
-public class JsonHelper {
+public class JsonConverter {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     static {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.registerModule(new JavaTimeModule());
     }
 
-    private JsonHelper() {
+    private JsonConverter() {
 
     }
 
@@ -67,7 +65,7 @@ public class JsonHelper {
     }
 
     public static void setObjectMapper(ObjectMapper objectMapper) {
-        JsonHelper.objectMapper = objectMapper;
+        JsonConverter.objectMapper = objectMapper;
     }
 
 }

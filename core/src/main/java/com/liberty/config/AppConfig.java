@@ -3,7 +3,7 @@ package com.liberty.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.liberty.common.JsonHelper;
+import com.liberty.common.JsonConverter;
 import com.liberty.common.StringConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -72,7 +72,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true);
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         converter.setObjectMapper(objectMapper);
-        JsonHelper.setObjectMapper(objectMapper);
+        JsonConverter.setObjectMapper(objectMapper);
         return converter;
     }
 
