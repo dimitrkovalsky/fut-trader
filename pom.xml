@@ -27,13 +27,19 @@
         <quartz.version>2.2.3</quartz.version>
         <swagger-jaxrs.version>1.5.0</swagger-jaxrs.version>
         <lombok.version>1.16.12</lombok.version>
-        <spring-web.version>4.3.5.RELEASE</spring-web.version>
+        <spring.version>4.3.5.RELEASE</spring.version>
         <spring-session.version>1.3.0.RELEASE</spring-session.version>
         <httpclient.version>4.5.2</httpclient.version>
         <log4j.version>1.2.17</log4j.version>
         <jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
     </properties>
-
+	<repositories>
+		<repository>
+			<id>Clojars</id>
+				<name>Clojars</name>
+				<url>http://clojars.org/repo</url>
+		</repository>
+	</repositories>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -73,13 +79,25 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
-                <version>${spring-web.version}</version>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
-                <version>${spring-web.version}</version>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
@@ -182,6 +200,11 @@
                 <version>${log4j.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.novemberain</groupId>
+                <artifactId>quartz-mongodb</artifactId>
+                <version>2.0.0-rc2</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

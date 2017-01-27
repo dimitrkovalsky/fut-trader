@@ -9,8 +9,6 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.session.data.mongo.JdkMongoSessionConverter;
 import org.springframework.session.data.mongo.config.annotation.web.http.EnableMongoHttpSession;
 import springfox.documentation.builders.PathSelectors;
@@ -24,17 +22,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @ComponentScan("com.liberty")
-@EnableScheduling
 @EnableMongoRepositories("com.liberty.repositories")
 @EnableMongoHttpSession
 @EnableSwagger2
 public class Config extends AbstractMongoConfiguration {
 
     public static final int POOL_SIZE = 10;
+    public static final String DATABASE_NAME = "fut-trader-17";
 
     @Override
     protected String getDatabaseName() {
-        return "fut-trader-17";
+        return DATABASE_NAME;
     }
 
     @Override
@@ -55,13 +53,6 @@ public class Config extends AbstractMongoConfiguration {
     @Override
     protected String getMappingBasePackage() {
         return "com.liberty.model";
-    }
-
-    @Bean
-    public ThreadPoolTaskScheduler taskScheduler() {
-        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(POOL_SIZE);
-        return scheduler;
     }
 
     @Bean
