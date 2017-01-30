@@ -4,6 +4,8 @@ import com.liberty.model.UserParameters;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Dmytro_Kovalskyi.
  * @since 19.11.2016.
@@ -11,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserParameterRepository extends MongoRepository<UserParameters, Long> {
 
+    List<UserParameters> findAllByAutoBuyEnabled(boolean enabled);
 }

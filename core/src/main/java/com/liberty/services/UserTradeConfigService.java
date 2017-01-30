@@ -15,6 +15,8 @@ public interface UserTradeConfigService {
 
     void updatePlayer(PlayerTradeStatus request);
 
+    Iterable<UserTradeConfig> getActiveUserConfigs();
+
     void disableAll();
 
     void enablePlayer(PlayerId playerId, boolean enabled);

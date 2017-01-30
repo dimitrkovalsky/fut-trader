@@ -1,6 +1,6 @@
 package com.liberty.config.quartz;
 
-import com.liberty.schedule.CheckPlayerJob;
+import com.liberty.schedule.BuyPlayersJob;
 import com.liberty.schedule.UpdatePlayerPriceJob;
 import org.joda.time.DateTime;
 import org.quartz.*;
@@ -42,7 +42,7 @@ public class JobConfig {
     private static JobDetail checkPlayerJob() {
         JobDetailImpl jobDetail = new JobDetailImpl();
         jobDetail.setKey(new JobKey("check_player", USER_JOBS));
-        jobDetail.setJobClass(CheckPlayerJob.class);
+        jobDetail.setJobClass(BuyPlayersJob.class);
         jobDetail.setDurability(true);
         return jobDetail;
     }
@@ -52,10 +52,8 @@ public class JobConfig {
                 .forJob(checkPlayerJob())
                 .withIdentity(CHECK_PLAYER_TRIGGER, USER_JOBS)
                 .withPriority(50)
-                // Job is scheduled for 3+1 times with the interval of 30 seconds
                 .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(30)
-                        .withRepeatCount(3))
+                        .withIntervalInSeconds(120))
                 .startAt(DateTime.now().plusSeconds(3).toDate())
                 .build();
     }

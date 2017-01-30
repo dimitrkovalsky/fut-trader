@@ -1,11 +1,14 @@
 package com.liberty;
 
 import com.liberty.common.Platform;
+import com.liberty.config.AppConfig;
 import com.liberty.config.Config;
+import com.liberty.config.SecurityConfig;
 import com.liberty.model.User;
 import com.liberty.services.UserService;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author Dmytro_Kovalskyi.
@@ -14,7 +17,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class InitialDataLoader {
 
     public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+        ConfigurableApplicationContext context = SpringApplication.run(new Class<?>[]{Config.class, AppConfig.class,
+                SecurityConfig.class}, args);
+
         createUser(context);
         System.out.println("Prices updated successfully");
         System.exit(0);

@@ -4,12 +4,16 @@ import com.liberty.model.PlayerId;
 import com.liberty.model.PlayerTradeStatus;
 import com.liberty.model.User;
 import com.liberty.model.UserTradeConfig;
+import com.liberty.repositories.UserParameterRepository;
 import com.liberty.repositories.UserTradeConfigRepository;
-import com.liberty.services.UserTradeConfigService;
 import com.liberty.services.UserService;
+import com.liberty.services.UserTradeConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Dmytro_Kovalskyi.
@@ -23,12 +27,15 @@ public class UserTradeConfigServiceImpl implements UserTradeConfigService {
     private UserTradeConfigRepository configRepository;
 
     @Autowired
+    private UserParameterRepository parameterRepository;
+
+    @Autowired
     private UserService userService;
 
     @Override
     public void addPlayerToAutoBuy(PlayerTradeStatus tradeStatus) {
         UserTradeConfig config = getCurrentUserConfig();
-        config.addPlayer(tradeStatus);
+        config.addPlayer(tradeStatus);    // TODO: check price limits
         configRepository.save(config);
     }
 
@@ -70,6 +77,14 @@ public class UserTradeConfigServiceImpl implements UserTradeConfigService {
         UserTradeConfig tradeConfig = new UserTradeConfig();
         tradeConfig.setUserId(user.getStringId());
         return tradeConfig;
+    }
+
+    @Override
+    public Iterable<UserTradeConfig> getActiveUserConfigs() {
+        List<String> ids = parameterRepository.findAllByAutoBuyEnabled(true)
+                .stream().map(x -> x.getUserId().toString())
+                .collect(Collectors.toList());
+        return configRepository.findAll(ids);
     }
 
     @Override
